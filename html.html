@@ -1,0 +1,2715 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NEXORA — texnologiya, sun'iy intellekt va kreativ g'oyalarni birlashtiruvchi raqamli kompaniya. Asoschisi: Nurullayev Nurmuhammad.">
+    <title>NEXORA — Raqamli Kelajak</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ==========================================
+           RESET & ASOSIY SOZLAMALAR
+        ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --bg-dark: #07090e;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-bg-hover: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-cyan: #00f2fe;
+            --primary-purple: #7000ff;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --font-space: 'Space Grotesk', sans-serif;
+            --font-inter: 'Inter', sans-serif;
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-inter);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        /* Ko'rinadigan fokus holati (klaviatura uchun) */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--primary-cyan);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -60px;
+            left: 20px;
+            background: var(--primary-cyan);
+            color: #000;
+            padding: 10px 18px;
+            border-radius: 6px;
+            z-index: 10000;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: top 0.25s var(--ease);
+        }
+
+        .skip-link:focus {
+            top: 20px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* ==========================================
+           YUKLANISH OYNASI (PRELOADER)
+        ========================================== */
+        .yuklanish {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg-dark);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
+        }
+
+        .yuklanish.yashir {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .yuklanish-logo {
+            font-family: var(--font-space);
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .yuklanish-logo span {
+            color: var(--primary-cyan);
+        }
+
+        .yuklanish-chiziq {
+            width: 200px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .yuklanish-chiziq div {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--primary-cyan), transparent);
+            animation: yuklanishAnim 1.4s infinite;
+        }
+
+        @keyframes yuklanishAnim {
+            100% {
+                left: 100%;
+            }
+        }
+
+        .yuklanish p {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+        }
+
+        /* ==========================================
+           SICHQONCHA (CUSTOM CURSOR)
+        ========================================== */
+        .sichqoncha,
+        .sichqoncha-iz {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-cyan);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999;
+            transform: translate(-50%, -50%);
+            will-change: transform;
+            transition: opacity 0.2s ease;
+        }
+
+        .sichqoncha-iz {
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            z-index: 998;
+            transition: width 0.2s var(--ease), height 0.2s var(--ease), border-color 0.2s var(--ease);
+        }
+
+        /* ==========================================
+           ORQA FON VA EFFEKTLAR
+        ========================================== */
+        .fon-setka {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+        }
+
+        .yoruglik {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.22;
+        }
+
+        .yoruglik-1 {
+            top: -10%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: var(--primary-cyan);
+        }
+
+        .yoruglik-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: var(--primary-purple);
+        }
+
+        .yoruglik-3 {
+            top: 40%;
+            left: 40%;
+            width: 400px;
+            height: 400px;
+            background: #0072ff;
+        }
+
+        /* ==========================================
+           NAVBAR
+        ========================================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(15px);
+            background: rgba(7, 9, 14, 0.7);
+            border-bottom: 1px solid var(--border-color);
+            transition: padding 0.3s var(--ease), background 0.3s var(--ease);
+        }
+
+        .navbar.qisqargan {
+            padding: 12px 8%;
+            background: rgba(7, 9, 14, 0.92);
+        }
+
+        .logo {
+            font-family: var(--font-space);
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--primary-cyan);
+        }
+
+        .menyu {
+            display: flex;
+            gap: 22px;
+        }
+
+        .menyu a {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: color 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .menyu a:hover,
+        .menyu a.faol {
+            color: var(--primary-cyan);
+        }
+
+        .menyu-tugma {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+            width: 32px;
+            height: 32px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .menyu-tugma span {
+            width: 25px;
+            height: 2px;
+            background: var(--text-main);
+            transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+        }
+
+        .menyu-tugma.faol span:first-child {
+            transform: translateY(4px) rotate(45deg);
+        }
+
+        .menyu-tugma.faol span:last-child {
+            transform: translateY(-4px) rotate(-45deg);
+        }
+
+        /* ==========================================
+           BO'LIMLAR (SECTIONS) ASOSIY
+        ========================================== */
+        .section {
+            padding: 120px 8% 80px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-sarlavha {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 60px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        .raqam {
+            font-size: 0.75rem;
+            color: var(--primary-cyan);
+            letter-spacing: 2px;
+            font-family: var(--font-space);
+        }
+
+        h2 {
+            font-family: var(--font-space);
+            font-size: 2.5rem;
+            margin-top: 10px;
+        }
+
+        h2 span {
+            color: var(--primary-cyan);
+        }
+
+        .section-sarlavha p {
+            color: var(--text-muted);
+            max-width: 400px;
+            font-size: 0.95rem;
+        }
+
+        /* Skrollga qarab ko'rinish animatsiyasi */
+        .royat {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+        }
+
+        .royat.korindi {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================
+           1. BOSH SAHIFA
+        ========================================== */
+        .bosh {
+            display: grid;
+            grid-template-columns: 1fr;
+            justify-items: center;
+            text-align: center;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .bosh-matn {
+            max-width: 700px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .bosh-tugmalar {
+            justify-content: center;
+        }
+
+        .holat {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--primary-cyan);
+            background: rgba(0, 242, 254, 0.05);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .holat span {
+            width: 6px;
+            height: 6px;
+            background: var(--primary-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary-cyan);
+        }
+
+        .bosh h1 {
+            font-family: var(--font-space);
+            font-size: 3.8rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .bosh h1 span {
+            background: linear-gradient(90deg, var(--primary-cyan), var(--primary-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bosh-tarif {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 35px;
+            max-width: 480px;
+        }
+
+        .bosh-tugmalar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .tugma {
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.25s var(--ease);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .tugma.asosiy {
+            background: var(--primary-cyan);
+            color: #000;
+            border: 1px solid var(--primary-cyan);
+        }
+
+        .tugma.asosiy:hover {
+            box-shadow: 0 0 24px rgba(0, 242, 254, 0.45);
+            transform: translateY(-2px);
+        }
+
+        .tugma.ikkilamchi {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .tugma.ikkilamchi:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* 3D Shar Animatsiyasi */
+        .bosh-rasm {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 340px;
+        }
+
+        .shar {
+            width: 280px;
+            height: 280px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .shar-markaz {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+            border-radius: 50%;
+            filter: blur(6px);
+            box-shadow: 0 0 60px rgba(0, 242, 254, 0.5);
+            animation: nafas 4s ease-in-out infinite;
+        }
+
+        @keyframes nafas {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+        .halqa {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            animation: aylanish 12s linear infinite;
+        }
+
+        .halqa-1 {
+            width: 100%;
+            height: 100%;
+        }
+
+        .halqa-2 {
+            width: 122%;
+            height: 122%;
+            animation-duration: 18s;
+            animation-direction: reverse;
+            border-color: rgba(112, 0, 255, 0.25);
+        }
+
+        .halqa-3 {
+            width: 144%;
+            height: 144%;
+            animation-duration: 26s;
+        }
+
+        @keyframes aylanish {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .nuqta {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary-cyan);
+            box-shadow: 0 0 12px var(--primary-cyan);
+        }
+
+        .nuqta-1 {
+            top: 2%;
+            left: 50%;
+        }
+
+        .nuqta-2 {
+            top: 50%;
+            right: -2%;
+            background: var(--primary-purple);
+            box-shadow: 0 0 12px var(--primary-purple);
+        }
+
+        .nuqta-3 {
+            bottom: 4%;
+            left: 20%;
+        }
+
+        .nuqta-4 {
+            top: 25%;
+            left: -3%;
+            background: var(--primary-purple);
+            box-shadow: 0 0 12px var(--primary-purple);
+        }
+
+        .suzuvchi-karta {
+            position: absolute;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            animation: suzish 5s ease-in-out infinite;
+        }
+
+        @keyframes suzish {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .suzuvchi-karta span {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .suzuvchi-karta strong {
+            color: var(--primary-cyan);
+            font-family: var(--font-space);
+        }
+
+        .karta-1 {
+            top: 6%;
+            right: 4%;
+        }
+
+        .karta-2 {
+            bottom: 6%;
+            left: -4%;
+            animation-delay: 1.5s;
+        }
+
+        .pastga {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+        }
+
+        .pastga div {
+            width: 1px;
+            height: 25px;
+            background: linear-gradient(to bottom, var(--primary-cyan), transparent);
+            animation: pastgaAnim 2s ease-in-out infinite;
+        }
+
+        @keyframes pastgaAnim {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* ==========================================
+           2. BIZ HAQIMIZDA
+        ========================================== */
+        .biz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .biz-karta {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 40px 30px;
+            border-radius: 12px;
+            position: relative;
+            transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), background 0.3s var(--ease);
+        }
+
+        .biz-karta:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 242, 254, 0.3);
+            background: var(--card-bg-hover);
+        }
+
+        .biz-karta .belgi {
+            font-size: 1.5rem;
+            color: var(--primary-cyan);
+            margin-bottom: 15px;
+        }
+
+        .biz-karta>span {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: var(--font-space);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .biz-karta h3 {
+            font-family: var(--font-space);
+            margin-bottom: 15px;
+            font-size: 1.25rem;
+        }
+
+        .biz-karta p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Asoschi (Founder) kartasi */
+        .biz-karta.asoschi-karta {
+            background: linear-gradient(155deg, rgba(0, 242, 254, 0.07), rgba(112, 0, 255, 0.05));
+            border-color: rgba(0, 242, 254, 0.25);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .asoschi-yuqori {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .asoschi-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-space);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #000;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+        }
+
+        .asoschi-karta h3 {
+            margin-bottom: 2px;
+        }
+
+        .asoschi-unvon {
+            font-size: 0.8rem;
+            color: var(--primary-cyan);
+        }
+
+        .asoschi-karta p {
+            margin-bottom: 0;
+        }
+
+        /* ==========================================
+           3. SUN'IY INTELLEKT (AI)
+        ========================================== */
+        .ai-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .ai-asosiy {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .ai-yuqori {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .faol-holat {
+            color: #10b981;
+        }
+
+        .faol-holat span {
+            display: inline-block;
+            animation: pulsatsiya 1.6s ease-in-out infinite;
+        }
+
+        @keyframes pulsatsiya {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.35;
+            }
+        }
+
+        .neyron {
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .neyron-markaz {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-cyan);
+            color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-family: var(--font-space);
+            box-shadow: 0 0 25px var(--primary-cyan);
+            z-index: 2;
+        }
+
+        .neyron-halqa {
+            position: absolute;
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            border-radius: 50%;
+            animation: aylanish 8s linear infinite;
+        }
+
+        .neyron-halqa.h1 {
+            width: 90px;
+            height: 90px;
+        }
+
+        .neyron-halqa.h2 {
+            width: 130px;
+            height: 130px;
+            animation-duration: 12s;
+            animation-direction: reverse;
+            border-color: rgba(112, 0, 255, 0.2);
+        }
+
+        .neyron-halqa.h3 {
+            width: 170px;
+            height: 170px;
+            animation-duration: 16s;
+        }
+
+        .ai-past {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        .ai-past small {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.65rem;
+        }
+
+        .ai-past strong {
+            font-family: var(--font-space);
+            font-size: 1.1rem;
+        }
+
+        .ai-statistika {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .ai-karta {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .ai-karta span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .ai-karta strong {
+            display: block;
+            font-size: 1.5rem;
+            font-family: var(--font-space);
+            margin: 5px 0 10px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress div {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--primary-purple));
+            transition: width 1.2s var(--ease);
+        }
+
+        /* ==========================================
+           4. LOYIHALAR
+        ========================================== */
+        .filtrlar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .filtr {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+        }
+
+        .filtr:hover:not(.faol) {
+            border-color: rgba(0, 242, 254, 0.5);
+            color: var(--text-main);
+        }
+
+        .filtr.faol {
+            background: var(--primary-cyan);
+            color: #000;
+            border-color: var(--primary-cyan);
+        }
+
+        .loyiha-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .loyiha {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 12px;
+            transition: transform 0.3s var(--ease), border-color 0.3s var(--ease);
+            animation: kartaPaydo 0.45s var(--ease);
+        }
+
+        @keyframes kartaPaydo {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loyiha.yashirin {
+            display: none;
+        }
+
+        .loyiha:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 242, 254, 0.4);
+        }
+
+        .loyiha-rasm {
+            height: 140px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: var(--primary-cyan);
+            margin-bottom: 20px;
+        }
+
+        .loyiha-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .loyiha h3 {
+            font-family: var(--font-space);
+            margin-bottom: 8px;
+        }
+
+        .loyiha p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* ==========================================
+           5. STATISTIKA
+        ========================================== */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-karta {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        .stat-karta>span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .stat-karta>strong {
+            display: block;
+            font-size: 2.5rem;
+            font-family: var(--font-space);
+            margin: 10px 0;
+            color: var(--primary-cyan);
+        }
+
+        .grafik {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            height: 60px;
+            margin: 20px 0 10px;
+        }
+
+        .grafik i {
+            flex: 1;
+            background: linear-gradient(180deg, var(--primary-cyan), rgba(0, 242, 254, 0.15));
+            border-radius: 2px;
+            height: 0;
+            transition: height 1s var(--ease);
+        }
+
+        .stat-karta small {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Dunyo xaritasi (foydalanuvchilar) */
+        .dunyo {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            height: 60px;
+            margin: 20px 0 10px;
+        }
+
+        .dunyo div {
+            flex: 1;
+            border-radius: 4px 4px 0 0;
+            background: linear-gradient(180deg, var(--primary-purple), rgba(112, 0, 255, 0.15));
+            height: 30%;
+            transition: height 1s var(--ease);
+        }
+
+        .dunyo div:nth-child(1) {
+            height: 55%;
+        }
+
+        .dunyo div:nth-child(2) {
+            height: 80%;
+        }
+
+        .dunyo div:nth-child(3) {
+            height: 45%;
+        }
+
+        .dunyo div:nth-child(4) {
+            height: 95%;
+        }
+
+        .dunyo div:nth-child(5) {
+            height: 65%;
+        }
+
+        /* Muvaffaqiyat aylanasi */
+        .aylana {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .aylana>div {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: conic-gradient(var(--primary-cyan) calc(var(--foiz, 0) * 1%), rgba(255, 255, 255, 0.08) 0);
+            transition: background 1.2s var(--ease);
+        }
+
+        .aylana>div::before {
+            content: "";
+            position: absolute;
+        }
+
+        .aylana b {
+            width: 84px;
+            height: 84px;
+            background: var(--bg-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-space);
+            font-size: 1.5rem;
+            font-style: normal;
+        }
+
+        .aylana small {
+            display: none;
+        }
+
+        /* ==========================================
+           6. TEXNOLOGIYALAR
+        ========================================== */
+        .texnologiya-sarlavha {
+            margin-bottom: 40px;
+        }
+
+        .texnologiya-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .texnologiya-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+        }
+
+        .texnologiya-item:hover {
+            background: rgba(0, 242, 254, 0.05);
+            border-color: var(--primary-cyan);
+            transform: translateY(-4px);
+        }
+
+        .texnologiya-item span {
+            font-size: 0.7rem;
+            color: var(--primary-cyan);
+            font-family: var(--font-space);
+        }
+
+        .texnologiya-item strong {
+            font-family: var(--font-space);
+            font-size: 1.1rem;
+        }
+
+        .texnologiya-item small {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        /* ==========================================
+           7. TAJRIBA (TIMELINE)
+        ========================================== */
+        .vaqt {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .vaqt-item {
+            display: flex;
+            gap: 30px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .vaqt-item.hozir {
+            border-color: var(--primary-cyan);
+        }
+
+        .yil {
+            font-family: var(--font-space);
+            font-size: 1.5rem;
+            color: var(--primary-cyan);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .vaqt-matn span {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .vaqt-matn h3 {
+            font-family: var(--font-space);
+            margin: 5px 0;
+        }
+
+        .vaqt-matn p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* ==========================================
+           8. YUTUQLAR
+        ========================================== */
+        .yutuq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .yutuq {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: 12px;
+            position: relative;
+            transition: transform 0.3s var(--ease), border-color 0.3s var(--ease);
+        }
+
+        .yutuq:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 242, 254, 0.3);
+        }
+
+        .yutuq.asosiy-yutuq {
+            border-color: rgba(0, 242, 254, 0.35);
+            background: linear-gradient(155deg, rgba(0, 242, 254, 0.06), transparent);
+        }
+
+        .yutuq-raqam {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .kub {
+            font-size: 1.5rem;
+            color: var(--primary-cyan);
+            margin-bottom: 15px;
+        }
+
+        .yutuq h3 {
+            font-family: var(--font-space);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .yutuq p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        .yutuq small {
+            color: var(--primary-cyan);
+            font-family: var(--font-space);
+        }
+
+        /* ==========================================
+           9. FIKR (ASOSCHIDAN)
+        ========================================== */
+        .fikr-asosiy {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 60px;
+            border-radius: 16px;
+            text-align: center;
+            position: relative;
+        }
+
+        .qoshtirnoq {
+            font-size: 4rem;
+            color: var(--primary-cyan);
+            line-height: 1;
+            font-family: var(--font-space);
+        }
+
+        blockquote {
+            font-family: var(--font-space);
+            font-size: 2rem;
+            margin: 20px 0 30px;
+            line-height: 1.3;
+        }
+
+        .muallif {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+            color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-family: var(--font-space);
+            flex-shrink: 0;
+        }
+
+        .muallif strong {
+            display: block;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .muallif span {
+            display: block;
+            text-align: left;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ==========================================
+           10. ALOQA & FOOTER
+        ========================================== */
+        .aloqa {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .aloqa-shar {
+            height: 250px;
+            border: 1px dashed rgba(0, 242, 254, 0.3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: var(--font-space);
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .aloqa-shar>div {
+            position: absolute;
+            inset: 20px;
+            border-radius: 50%;
+            border: 1px solid rgba(112, 0, 255, 0.3);
+            animation: aylanish 14s linear infinite;
+        }
+
+        footer {
+            padding: 40px 8%;
+            border-top: 1px solid var(--border-color);
+            background: #040508;
+        }
+
+        .footer-yuqori {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .footer-yuqori p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer-asoschi {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .footer-asoschi strong {
+            color: var(--primary-cyan);
+            font-weight: 600;
+        }
+
+        .footer-past {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 15px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .footer-past div {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer-past a:hover {
+            color: var(--primary-cyan);
+        }
+
+        /* ==========================================
+           RESPONSIVE (MOBIL ADAPTATSIYA)
+        ========================================== */
+        @media (max-width: 1100px) {
+            .menyu {
+                gap: 14px;
+            }
+
+            .menyu a {
+                font-size: 0.78rem;
+            }
+        }
+
+        @media (max-width: 900px) {
+
+            .bosh,
+            .ai-panel,
+            .aloqa {
+                grid-template-columns: 1fr;
+            }
+
+            .bosh-rasm {
+                order: -1;
+            }
+
+            .menyu {
+                display: none;
+                gap: 15px;
+            }
+
+            .menyu.faol-mobil {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(7, 9, 14, 0.98);
+                padding: 20px 8%;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .menyu-tugma {
+                display: flex;
+            }
+
+            .bosh h1 {
+                font-size: 2.6rem;
+            }
+
+            .section-sarlavha {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .fikr-asosiy {
+                padding: 40px 24px;
+            }
+
+            blockquote {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .bosh h1 {
+                font-size: 2.1rem;
+            }
+
+            .section {
+                padding: 110px 6% 60px;
+            }
+
+            .fikr-asosiy {
+                padding: 30px 18px;
+            }
+        }
+
+        /* ==========================================
+           AI YORDAMCHI (CHAT VIDJETI)
+        ========================================== */
+        .ai-tugma {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+            box-shadow: 0 8px 30px rgba(0, 242, 254, 0.35);
+            transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+        }
+
+        .ai-tugma:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 36px rgba(0, 242, 254, 0.5);
+        }
+
+        .ai-tugma svg {
+            width: 26px;
+            height: 26px;
+            stroke: #000;
+        }
+
+        .ai-tugma .yopish-belgi {
+            display: none;
+        }
+
+        .ai-tugma.ochiq .chat-belgi {
+            display: none;
+        }
+
+        .ai-tugma.ochiq .yopish-belgi {
+            display: block;
+        }
+
+        .ai-nuqta {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 12px;
+            height: 12px;
+            background: #10b981;
+            border: 2px solid var(--bg-dark);
+            border-radius: 50%;
+        }
+
+        .ai-panel {
+            position: fixed;
+            bottom: 104px;
+            right: 28px;
+            width: 370px;
+            max-width: calc(100vw - 40px);
+            height: 520px;
+            max-height: calc(100vh - 150px);
+            background: #0b0e16;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            z-index: 499;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(16px) scale(0.98);
+            pointer-events: none;
+            transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+        }
+
+        .ai-panel.ochiq {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .ai-panel-sarlavha {
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.02);
+            flex-shrink: 0;
+        }
+
+        .ai-avatar-mini {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-space);
+            font-weight: 700;
+            color: #000;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .ai-panel-sarlavha strong {
+            display: block;
+            font-size: 0.9rem;
+            font-family: var(--font-space);
+        }
+
+        .ai-panel-sarlavha span {
+            display: block;
+            font-size: 0.7rem;
+            color: #10b981;
+        }
+
+        .ai-xabarlar {
+            flex: 1;
+            overflow-y: auto;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .ai-xabarlar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .ai-xabarlar::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 5px;
+        }
+
+        .ai-xabar {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            animation: kartaPaydo 0.3s var(--ease);
+            white-space: pre-wrap;
+        }
+
+        .ai-xabar.bot {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-bottom-left-radius: 4px;
+        }
+
+        .ai-xabar.foydalanuvchi {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--primary-cyan), #00c2c9);
+            color: #000;
+            font-weight: 500;
+            border-bottom-right-radius: 4px;
+        }
+
+        .ai-xabar.xato {
+            align-self: flex-start;
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .ai-yozmoqda {
+            align-self: flex-start;
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            border-bottom-left-radius: 4px;
+        }
+
+        .ai-yozmoqda span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            animation: nuqtaAnim 1.2s ease-in-out infinite;
+        }
+
+        .ai-yozmoqda span:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+        .ai-yozmoqda span:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes nuqtaAnim {
+
+            0%,
+            60%,
+            100% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+
+            30% {
+                opacity: 1;
+                transform: translateY(-3px);
+            }
+        }
+
+        .ai-takliflar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 0 18px 12px;
+            flex-shrink: 0;
+        }
+
+        .ai-taklif {
+            font-size: 0.72rem;
+            padding: 6px 12px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .ai-taklif:hover {
+            border-color: var(--primary-cyan);
+            color: var(--primary-cyan);
+        }
+
+        .ai-forma {
+            display: flex;
+            gap: 8px;
+            padding: 14px;
+            border-top: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .ai-forma input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.85rem;
+        }
+
+        .ai-forma input:focus {
+            outline: none;
+            border-color: var(--primary-cyan);
+        }
+
+        .ai-forma button {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            border: none;
+            background: var(--primary-cyan);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .ai-forma button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .ai-forma svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        @media (max-width: 480px) {
+            .ai-panel {
+                right: 16px;
+                bottom: 96px;
+                width: calc(100vw - 32px);
+            }
+
+            .ai-tugma {
+                right: 16px;
+                bottom: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="#asosiy-mazmun" class="skip-link">Asosiy mazmunga o'tish</a>
+
+    <!-- Yuklanish oynasi -->
+    <div class="yuklanish" aria-hidden="true">
+        <div class="yuklanish-logo">NEXORA<span>.</span></div>
+        <div class="yuklanish-chiziq">
+            <div></div>
+        </div>
+        <p>RAQAMLI OLAM YUKLANMOQDA...</p>
+    </div>
+
+    <!-- Sichqoncha -->
+    <div class="sichqoncha" aria-hidden="true"></div>
+    <div class="sichqoncha-iz" aria-hidden="true"></div>
+
+    <!-- Orqa fon -->
+    <div class="fon-setka" aria-hidden="true"></div>
+    <div class="yoruglik yoruglik-1" aria-hidden="true"></div>
+    <div class="yoruglik yoruglik-2" aria-hidden="true"></div>
+    <div class="yoruglik yoruglik-3" aria-hidden="true"></div>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="#bosh" class="logo">NEXORA<span>.</span></a>
+
+        <nav class="menyu" aria-label="Asosiy navigatsiya">
+            <a href="#bosh" class="faol">Bosh sahifa</a>
+            <a href="#biz">Biz haqimizda</a>
+            <a href="#ai">Sun'iy intellekt</a>
+            <a href="#loyihalar">Loyihalar</a>
+            <a href="#statistika">Statistika</a>
+            <a href="#texnologiya">Texnologiyalar</a>
+            <a href="#tajriba">Tajriba</a>
+            <a href="#yutuqlar">Yutuqlar</a>
+            <a href="#aloqa">Aloqa</a>
+        </nav>
+
+        <button class="menyu-tugma" aria-label="Menyuni ochish" aria-expanded="false">
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <main id="asosiy-mazmun">
+
+        <!-- 1. BOSH SAHIFA -->
+        <section class="section bosh" id="bosh">
+
+            <div class="bosh-matn">
+                <div class="holat">
+                    <span></span>
+                    TIZIM ISHLAMOQDA
+                </div>
+
+                <h1>
+                    Raqamli
+                    <span>Kelajakni</span>
+                    Quramiz.
+                </h1>
+
+                <p class="bosh-tarif">
+                    NEXORA — texnologiya, sun'iy intellekt
+                    va kreativ g'oyalarni birlashtiruvchi
+                    zamonaviy raqamli olam.
+                </p>
+
+                <div class="bosh-tugmalar">
+                    <a href="#loyihalar" class="tugma asosiy">
+                        Loyihalarni ko'rish
+                        <span aria-hidden="true">↗</span>
+                    </a>
+                    <a href="#biz" class="tugma ikkilamchi">Biz haqimizda</a>
+                </div>
+            </div>
+
+            <div class="bosh-rasm">
+                <div class="ai-asosiy">
+                    <div class="ai-yuqori">
+                        <span>NEXORA AQL MARKAZI</span>
+                        <span class="faol-holat"><span aria-hidden="true">●</span> FAOL</span>
+                    </div>
+
+                    <div class="neyron">
+                        <div class="neyron-markaz">N</div>
+                        <div class="neyron-halqa h1"></div>
+                        <div class="neyron-halqa h2"></div>
+                        <div class="neyron-halqa h3"></div>
+                    </div>
+
+                    <div class="ai-past">
+                        <div>
+                            <small>ISHLOV BERISH</small>
+                            <strong>1.42M/s</strong>
+                        </div>
+                        <div>
+                            <small>ANIQLIK</small>
+                            <strong>98.7%</strong>
+                        </div>
+                        <div>
+                            <small>HOLAT</small>
+                            <strong>OPTIMAL</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pastga">
+                <span>PASTGA O'TING</span>
+                <div></div>
+            </div>
+
+        </section>
+
+        <!-- 2. BIZ HAQIMIZDA -->
+        <section class="section biz" id="biz">
+
+            <div class="section-sarlavha royat">
+                <div>
+                    <span class="raqam">01 / BIZ HAQIMIZDA</span>
+                    <h2>Oddiydan <span>yuqoriroq.</span></h2>
+                </div>
+                <p>
+                    Biz dizayn, dasturlash va zamonaviy
+                    texnologiyalar yordamida kelajak
+                    uchun raqamli mahsulotlar yaratamiz.
+                </p>
+            </div>
+
+            <div class="biz-grid">
+
+                <div class="biz-karta katta royat">
+                    <div class="belgi" aria-hidden="true">◈</div>
+                    <span>01</span>
+                    <h3>Kelajakni o'ylash</h3>
+                    <p>
+                        Biz faqat bugungi kun uchun emas,
+                        ertangi kun uchun ham mahsulot
+                        yaratamiz.
+                    </p>
+                </div>
+
+                <div class="biz-karta royat">
+                    <div class="belgi" aria-hidden="true">✦</div>
+                    <span>02</span>
+                    <h3>Aqlli tizimlar</h3>
+                    <p>
+                        Sun'iy intellekt va zamonaviy
+                        dasturlash orqali aqlli tizimlar.
+                    </p>
+                </div>
+
+                <div class="biz-karta royat">
+                    <div class="belgi" aria-hidden="true">⌁</div>
+                    <span>03</span>
+                    <h3>Inson uchun texnologiya</h3>
+                    <p>
+                        Texnologiya chiroyli bo'lishi
+                        bilan birga qulay ham bo'lishi kerak.
+                    </p>
+                </div>
+
+                <div class="biz-karta asoschi-karta royat">
+                    <div class="asoschi-yuqori">
+                        <div class="asoschi-avatar" aria-hidden="true">NN</div>
+                        <div>
+                            <h3>Nurullayev Nurmuhammad</h3>
+                            <span class="asoschi-unvon">NEXORA asoschisi</span>
+                        </div>
+                    </div>
+                    <p>
+                        NEXORA g'oyasi ortida turgan asoschi —
+                        kompaniyaning texnologik yo'nalishi va
+                        rivojlanish strategiyasini belgilaydi.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- 3. SUN'IY INTELLEKT -->
+        <section class="section ai" id="ai">
+
+            <div class="ai-matn royat">
+                <span class="raqam">02 / SUN'IY INTELLEKT</span>
+                <h2>Aql <span>rivojlanmoqda.</span></h2>
+                <p>
+                    Kelajak texnologiyalarining asosiy
+                    kuchlaridan biri — sun'iy intellekt.
+                </p>
+            </div>
+
+        </section>
+
+        <!-- 4. LOYIHALAR -->
+        <section class="section loyihalar" id="loyihalar">
+
+            <div class="section-sarlavha royat">
+                <div>
+                    <span class="raqam">03 / LOYIHALAR</span>
+                    <h2>Bizning <span>ishlarimiz.</span></h2>
+                </div>
+                <p>Turli yo'nalishlarda yaratilgan zamonaviy raqamli loyihalar.</p>
+            </div>
+
+            <div class="filtrlar royat" role="group" aria-label="Loyihalarni turi bo'yicha saralash">
+                <button class="filtr faol" data-tur="barchasi" aria-pressed="true">Barchasi</button>
+                <button class="filtr" data-tur="ai" aria-pressed="false">Sun'iy intellekt</button>
+                <button class="filtr" data-tur="web" aria-pressed="false">Web</button>
+                <button class="filtr" data-tur="xavfsizlik" aria-pressed="false">Xavfsizlik</button>
+            </div>
+
+            <div class="loyiha-grid royat">
+
+                <article class="loyiha" data-tur="ai">
+                    <div class="loyiha-rasm" aria-hidden="true">◉</div>
+                    <div class="loyiha-info"><span>AI</span><span>2026</span></div>
+                    <h3>Neural Vision</h3>
+                    <p>Sun'iy intellekt asosidagi kompyuter ko'rish tizimi.</p>
+                </article>
+
+                <article class="loyiha" data-tur="xavfsizlik">
+                    <div class="loyiha-rasm" aria-hidden="true">◇</div>
+                    <div class="loyiha-info"><span>XAVFSIZLIK</span><span>2026</span></div>
+                    <h3>Cyber Shield</h3>
+                    <p>Zamonaviy raqamli xavfsizlik boshqaruv paneli.</p>
+                </article>
+
+                <article class="loyiha" data-tur="web">
+                    <div class="loyiha-rasm" aria-hidden="true">∞</div>
+                    <div class="loyiha-info"><span>WEB</span><span>2026</span></div>
+                    <h3>Quantum Web</h3>
+                    <p>Kelajak web interfeysi uchun yaratilgan tajriba.</p>
+                </article>
+
+                <article class="loyiha" data-tur="ai">
+                    <div class="loyiha-rasm" aria-hidden="true">✦</div>
+                    <div class="loyiha-info"><span>AI</span><span>2025</span></div>
+                    <h3>AI Genesis</h3>
+                    <p>Aqlli tizimlar uchun maxsus interfeys.</p>
+                </article>
+
+                <article class="loyiha" data-tur="web">
+                    <div class="loyiha-rasm" aria-hidden="true">◈</div>
+                    <div class="loyiha-info"><span>WEB</span><span>2025</span></div>
+                    <h3>Digital Core</h3>
+                    <p>Zamonaviy boshqaruv paneli va raqamli platforma.</p>
+                </article>
+
+                <article class="loyiha" data-tur="xavfsizlik">
+                    <div class="loyiha-rasm" aria-hidden="true">⬡</div>
+                    <div class="loyiha-info"><span>XAVFSIZLIK</span><span>2025</span></div>
+                    <h3>Zero Trust</h3>
+                    <p>Raqamli xavfsizlik tizimi konsepsiyasi.</p>
+                </article>
+
+            </div>
+
+        </section>
+
+        <!-- 5. STATISTIKA -->
+        <section class="section statistika" id="statistika">
+
+            <div class="section-sarlavha royat">
+                <div>
+                    <span class="raqam">04 / STATISTIKA</span>
+                    <h2>Raqamlar <span>gapiradi.</span></h2>
+                </div>
+            </div>
+
+            <div class="stat-grid royat">
+
+                <div class="stat-karta">
+                    <span>LOYIHA O'SISHI</span>
+                    <strong>+247%</strong>
+                    <div class="grafik">
+                        <i data-balandlik="25"></i>
+                        <i data-balandlik="38"></i>
+                        <i data-balandlik="31"></i>
+                        <i data-balandlik="55"></i>
+                        <i data-balandlik="48"></i>
+                        <i data-balandlik="72"></i>
+                        <i data-balandlik="65"></i>
+                        <i data-balandlik="90"></i>
+                        <i data-balandlik="82"></i>
+                        <i data-balandlik="100"></i>
+                    </div>
+                    <small>Oxirgi 10 oy</small>
+                </div>
+
+                <div class="stat-karta">
+                    <span>FOYDALANUVCHILAR</span>
+                    <strong>84.2K</strong>
+                    <div class="dunyo" aria-hidden="true">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <small>37 ta davlatdan</small>
+                </div>
+
+                <div class="stat-karta">
+                    <span>MUVAFFAQIYAT</span>
+                    <strong>96.8%</strong>
+                    <div class="aylana">
+                        <div data-foiz="96" style="--foiz:0">
+                            <b>96<small>%</small></b>
+                        </div>
+                    </div>
+                    <small>Loyihalar yakuni</small>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- 6. TEXNOLOGIYALAR -->
+        <section class="section texnologiya" id="texnologiya">
+
+            <div class="texnologiya-sarlavha royat">
+                <span class="raqam">05 / TEXNOLOGIYALAR</span>
+                <h2>Biz foydalanadigan <span>kuch.</span></h2>
+            </div>
+
+            <div class="texnologiya-list royat">
+                <div class="texnologiya-item">
+                    <span>01</span>
+                    <strong>HTML5</strong>
+                    <small>SAYT TUZILISHI</small>
+                </div>
+                <div class="texnologiya-item">
+                    <span>02</span>
+                    <strong>CSS3</strong>
+                    <small>DIZAYN</small>
+                </div>
+                <div class="texnologiya-item">
+                    <span>03</span>
+                    <strong>JavaScript</strong>
+                    <small>INTERAKTIVLIK</small>
+                </div>
+                <div class="texnologiya-item">
+                    <span>04</span>
+                    <strong>React</strong>
+                    <small>FRONTEND</small>
+                </div>
+                <div class="texnologiya-item">
+                    <span>05</span>
+                    <strong>Python</strong>
+                    <small>AI VA MA'LUMOTLAR</small>
+                </div>
+                <div class="texnologiya-item">
+                    <span>06</span>
+                    <strong>Node.js</strong>
+                    <small>BACKEND</small>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 7. TAJRIBA -->
+        <section class="section tajriba" id="tajriba">
+
+            <div class="section-sarlavha royat">
+                <div>
+                    <span class="raqam">06 / TAJRIBA</span>
+                    <h2>Bizning <span>yo'limiz.</span></h2>
+                </div>
+            </div>
+
+            <div class="vaqt royat">
+
+                <div class="vaqt-item">
+                    <div class="yil">2023</div>
+                    <div class="vaqt-matn">
+                        <span>BOSHLANISH</span>
+                        <h3>Birinchi g'oya.</h3>
+                        <p>NEXORA oddiy raqamli g'oya sifatida ish boshladi.</p>
+                    </div>
+                </div>
+
+                <div class="vaqt-item">
+                    <div class="yil">2024</div>
+                    <div class="vaqt-matn">
+                        <span>RIVOJLANISH</span>
+                        <h3>Dizayn va dasturlash.</h3>
+                        <p>G'oya zamonaviy raqamli platformaga aylandi.</p>
+                    </div>
+                </div>
+
+                <div class="vaqt-item">
+                    <div class="yil">2025</div>
+                    <div class="vaqt-matn">
+                        <span>AQL</span>
+                        <h3>AI tizimga qo'shildi.</h3>
+                        <p>Sun'iy intellekt loyihaning asosiy qismiga aylandi.</p>
+                    </div>
+                </div>
+
+                <div class="vaqt-item hozir">
+                    <div class="yil">2026</div>
+                    <div class="vaqt-matn">
+                        <span>HOZIR</span>
+                        <h3>Kelajakni qurmoqdamiz.</h3>
+                        <p>Keyingi katta bosqich aynan hozir boshlanmoqda.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- 8. YUTUQLAR -->
+        <section class="section yutuqlar" id="yutuqlar">
+
+            <div class="section-sarlavha royat">
+                <div>
+                    <span class="raqam">07 / YUTUQLAR</span>
+                    <h2>Natijalar <span>muhim.</span></h2>
+                </div>
+            </div>
+
+            <div class="yutuq-grid royat">
+
+                <div class="yutuq">
+                    <span class="yutuq-raqam">#01</span>
+                    <div class="kub" aria-hidden="true">✦</div>
+                    <h3>Innovatsiya mukofoti</h3>
+                    <p>Raqamli innovatsiyalar tanlovi</p>
+                    <small>2026</small>
+                </div>
+
+                <div class="yutuq asosiy-yutuq">
+                    <span class="yutuq-raqam">#02</span>
+                    <div class="kub" aria-hidden="true">◆</div>
+                    <h3>Eng yaxshi raqamli tajriba</h3>
+                    <p>Kelajak web mukofotlari</p>
+                    <small>2026</small>
+                </div>
+
+                <div class="yutuq">
+                    <span class="yutuq-raqam">#03</span>
+                    <div class="kub" aria-hidden="true">◇</div>
+                    <h3>Kreativ mukammallik</h3>
+                    <p>Dizayn va texnologiya</p>
+                    <small>2025</small>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- 9. FIKR (ASOSCHIDAN) -->
+        <section class="section fikrlar">
+
+            <div class="fikr-asosiy royat">
+                <span class="raqam">08 / ASOSCHIDAN</span>
+                <div class="qoshtirnoq" aria-hidden="true">"</div>
+
+                <blockquote>
+                    Kelajakni kutib o'tirmaymiz.
+                    Uni o'zimiz quramiz.
+                </blockquote>
+
+                <div class="muallif">
+                    <div class="avatar" aria-hidden="true">NN</div>
+                    <div>
+                        <strong>Nurullayev Nurmuhammad</strong>
+                        <span>NEXORA asoschisi</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 10. ALOQA -->
+        <section class="section aloqa" id="aloqa">
+
+            <div class="aloqa-matn royat">
+                <span class="raqam">09 / ALOQA</span>
+                <h2>Keling, <span>birga quramiz.</span></h2>
+                <p>
+                    G'oyangiz bormi?
+                    Uni haqiqiy raqamli loyihaga
+                    aylantirish vaqti keldi.
+                </p>
+                <a href="mailto:nexora@example.com" class="tugma asosiy">
+                    Loyihani boshlash
+                    <span aria-hidden="true">↗</span>
+                </a>
+            </div>
+
+            <div class="aloqa-shar royat" aria-hidden="true">
+                <div></div>
+                <span>BIRGA<br>YARATAMIZ</span>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div class="footer-yuqori">
+            <div>
+                <a href="#bosh" class="logo">NEXORA<span>.</span></a>
+                <p>Ertangi raqamli dunyoni bugun yaratamiz.</p>
+                <p class="footer-asoschi">Asoschisi: <strong>Nurullayev Nurmuhammad</strong></p>
+            </div>
+        </div>
+
+        <div class="footer-past">
+            <span id="mualliflik-yili">© 2026 NEXORA. BARCHA HUQUQLAR HIMOYALANGAN.</span>
+            <div>
+                <a href="#">Telegram</a>
+                <a href="#">GitHub</a>
+                <a href="#">Instagram</a>
+            </div>
+        </div>
+
+    </footer>
+
+    <!-- AI YORDAMCHI -->
+    <button class="ai-tugma" id="aiTugma" aria-label="NEXORA AI yordamchisini ochish" aria-expanded="false">
+        <svg class="chat-belgi" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+        <svg class="yopish-belgi" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+        <span class="ai-nuqta" aria-hidden="true"></span>
+    </button>
+
+    <section class="ai-panel" id="aiPanel" role="dialog" aria-label="NEXORA AI yordamchisi" aria-hidden="true">
+
+        <div class="ai-panel-sarlavha">
+            <div class="ai-avatar-mini" aria-hidden="true">NX</div>
+            <div>
+                <strong>NEXORA AI Yordamchisi</strong>
+                <span>● Onlayn</span>
+            </div>
+        </div>
+
+        <div class="ai-xabarlar" id="aiXabarlar">
+            <div class="ai-xabar bot">
+                Salom! Men NEXORA'ning AI yordamchisiman. Kompaniya, loyihalar, texnologiyalar yoki xizmatlar haqida savol bering — javobini topib beraman.
+            </div>
+        </div>
+
+        <div class="ai-takliflar" id="aiTakliflar">
+            <button class="ai-taklif" type="button">NEXORA nima bilan shug'ullanadi?</button>
+            <button class="ai-taklif" type="button">Asoschisi kim?</button>
+            <button class="ai-taklif" type="button">Qanday loyihalar bor?</button>
+            <button class="ai-taklif" type="button">Qanday bog'lansam bo'ladi?</button>
+        </div>
+
+        <form class="ai-forma" id="aiForma">
+            <input type="text" id="aiInput" placeholder="Savolingizni yozing..." autocomplete="off" aria-label="Savolingizni yozing">
+            <button type="submit" aria-label="Yuborish">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </form>
+
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // 1. PRELOADER
+            const preloader = document.querySelector(".yuklanish");
+            window.addEventListener("load", () => {
+                setTimeout(() => {
+                    if (preloader) preloader.classList.add("yashir");
+                }, 700);
+            });
+            // Zaxira: agar load hodisasi kechiksa, 3.5s dan keyin baribir yashirish
+            setTimeout(() => {
+                if (preloader) preloader.classList.add("yashir");
+            }, 3500);
+
+            const kamHarakat = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+            // 2. MAXSUS SICHQONCHA — endi barcha ekran o'lchamlarida faol
+            const cursor = document.querySelector(".sichqoncha");
+            const cursorTrail = document.querySelector(".sichqoncha-iz");
+
+            if (cursor && cursorTrail) {
+                // Sichqoncha harakatlanmaguncha ekrandan tashqarida turadi
+                cursor.style.transform = "translate(-100px, -100px)";
+                cursorTrail.style.transform = "translate(-100px, -100px)";
+
+                let mx = -100, my = -100, tx = -100, ty = -100;
+
+                document.addEventListener("mousemove", (e) => {
+                    mx = e.clientX;
+                    my = e.clientY;
+                    cursor.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+                });
+
+                document.addEventListener("mouseleave", () => {
+                    cursor.style.opacity = "0";
+                    cursorTrail.style.opacity = "0";
+                });
+
+                document.addEventListener("mouseenter", () => {
+                    cursor.style.opacity = "1";
+                    cursorTrail.style.opacity = "1";
+                });
+
+                function izniYangila() {
+                    tx += (mx - tx) * (kamHarakat ? 1 : 0.15);
+                    ty += (my - ty) * (kamHarakat ? 1 : 0.15);
+                    cursorTrail.style.transform = `translate(${tx}px, ${ty}px) translate(-50%, -50%)`;
+                    requestAnimationFrame(izniYangila);
+                }
+                requestAnimationFrame(izniYangila);
+
+                const hoverElements = document.querySelectorAll("a, button, .loyiha, .biz-karta, .texnologiya-item, .yutuq, .ai-taklif, .filtr");
+                hoverElements.forEach((el) => {
+                    el.addEventListener("mouseenter", () => {
+                        cursorTrail.style.width = "50px";
+                        cursorTrail.style.height = "50px";
+                        cursorTrail.style.borderColor = "var(--primary-cyan)";
+                    });
+                    el.addEventListener("mouseleave", () => {
+                        cursorTrail.style.width = "32px";
+                        cursorTrail.style.height = "32px";
+                    });
+                });
+            }
+
+            // 3. LOYIHALAR FILTRI
+            const filterBtns = document.querySelectorAll(".filtr");
+            const projects = document.querySelectorAll(".loyiha");
+
+            filterBtns.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    filterBtns.forEach((b) => {
+                        b.classList.remove("faol");
+                        b.setAttribute("aria-pressed", "false");
+                    });
+                    btn.classList.add("faol");
+                    btn.setAttribute("aria-pressed", "true");
+
+                    const category = btn.getAttribute("data-tur");
+
+                    projects.forEach((project) => {
+                        const projectTur = project.getAttribute("data-tur");
+                        const moslashadi = category === "barchasi" || projectTur === category;
+                        project.classList.toggle("yashirin", !moslashadi);
+                    });
+                });
+            });
+
+            // 4. NAVBAR SCROLL EFEKTI
+            const navbar = document.querySelector(".navbar");
+            let oxirgiScroll = 0;
+            let scrollJarayonda = false;
+
+            function navbarniYangila() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add("qisqargan");
+                } else {
+                    navbar.classList.remove("qisqargan");
+                }
+                scrollJarayonda = false;
+            }
+
+            window.addEventListener("scroll", () => {
+                if (!scrollJarayonda) {
+                    requestAnimationFrame(navbarniYangila);
+                    scrollJarayonda = true;
+                }
+            });
+
+            // 5. MOBIL MENYU
+            const menuBtn = document.querySelector(".menyu-tugma");
+            const menu = document.querySelector(".menyu");
+
+            if (menuBtn && menu) {
+                menuBtn.addEventListener("click", () => {
+                    const ochiqmi = menu.classList.toggle("faol-mobil");
+                    menuBtn.classList.toggle("faol", ochiqmi);
+                    menuBtn.setAttribute("aria-expanded", String(ochiqmi));
+                });
+
+                menu.querySelectorAll("a").forEach((link) => {
+                    link.addEventListener("click", () => {
+                        menu.classList.remove("faol-mobil");
+                        menuBtn.classList.remove("faol");
+                        menuBtn.setAttribute("aria-expanded", "false");
+                    });
+                });
+            }
+
+            // 6. FAOL NAV LINKNI SKROLLGA QARAB BELGILASH
+            const bolimlar = document.querySelectorAll("main .section[id]");
+            const navLinklar = document.querySelectorAll(".menyu a");
+
+            const navKuzatuvchi = new IntersectionObserver((yozuvlar) => {
+                yozuvlar.forEach((yozuv) => {
+                    if (yozuv.isIntersecting) {
+                        const id = yozuv.target.getAttribute("id");
+                        navLinklar.forEach((link) => {
+                            link.classList.toggle("faol", link.getAttribute("href") === `#${id}`);
+                        });
+                    }
+                });
+            }, { rootMargin: "-45% 0px -45% 0px" });
+
+            bolimlar.forEach((bolim) => navKuzatuvchi.observe(bolim));
+
+            // 7. SKROLLDA KO'RINISH ANIMATSIYASI
+            const royatlar = document.querySelectorAll(".royat");
+
+            const royatKuzatuvchi = new IntersectionObserver((yozuvlar) => {
+                yozuvlar.forEach((yozuv) => {
+                    if (yozuv.isIntersecting) {
+                        yozuv.target.classList.add("korindi");
+
+                        // Progress-barlarni to'ldirish
+                        yozuv.target.querySelectorAll("[data-foiz]").forEach((el) => {
+                            const foiz = el.getAttribute("data-foiz");
+                            if (el.classList.contains("progress") || el.parentElement.classList.contains("progress")) {
+                                el.style.width = foiz + "%";
+                            } else {
+                                el.style.setProperty("--foiz", foiz);
+                            }
+                        });
+
+                        // Grafik ustunlarini to'ldirish
+                        yozuv.target.querySelectorAll("[data-balandlik]").forEach((el) => {
+                            el.style.height = el.getAttribute("data-balandlik") + "%";
+                        });
+
+                        royatKuzatuvchi.unobserve(yozuv.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            royatlar.forEach((el) => royatKuzatuvchi.observe(el));
+
+            // 8. FOOTER YILINI AVTOMATIK YANGILASH
+            const yilElement = document.querySelector("#mualliflik-yili");
+            if (yilElement) {
+                const joriyYil = new Date().getFullYear();
+                yilElement.textContent = `© ${joriyYil} NEXORA. BARCHA HUQUQLAR HIMOYALANGAN.`;
+            }
+
+            // 9. AI YORDAMCHI (SAVOL-JAVOB)
+            const aiTugma = document.querySelector("#aiTugma");
+            const aiPanel = document.querySelector("#aiPanel");
+            const aiXabarlar = document.querySelector("#aiXabarlar");
+            const aiForma = document.querySelector("#aiForma");
+            const aiInput = document.querySelector("#aiInput");
+            const aiTakliflar = document.querySelector("#aiTakliflar");
+
+            // NEXORA haqida AI javob berishda tayanadigan kontekst
+            const NEXORA_KONTEKST = `
+Sen NEXORA nomli raqamli texnologiya kompaniyasining saytiga o'rnatilgan AI yordamchisisan. Sen to'liq huquqli, umumiy maqsadli sun'iy intellekt yordamchisisan — foydalanuvchi qanday savol bersa ham (NEXORA haqida bo'lsin, umumiy bilim, maslahat, hisob-kitob, tarjima, dasturlash, ijodiy yozuv yoki boshqa har qanday mavzu), unga to'liq, foydali va aniq javob ber, xuddi kuchli AI suhbat yordamchisi kabi. Savolni rad etma yoki "bu mening vazifam emas" dema — imkoningning boricha yordam ber.
+
+Javob berish uslubi: odatda o'zbek tilida (agar foydalanuvchi boshqa tilda yozsa, o'sha tilda javob ber), aniq va tushunarli, ortiqcha cho'zmasdan, lekin savol chuqur bo'lsa batafsilroq javob berishdan qochma.
+
+Agar savol aynan NEXORA kompaniyasi haqida bo'lsa, quyidagi ma'lumotlarga tayan va faktlarni o'ylab topma:
+
+KOMPANIYA HAQIDA:
+- Nomi: NEXORA — texnologiya, sun'iy intellekt va kreativ g'oyalarni birlashtiruvchi raqamli kompaniya.
+- Shior: "Kelajakni kutib o'tirmaymiz. Uni o'zimiz quramiz."
+- Asoschisi: Nurullayev Nurmuhammad (NEXORA asoschisi).
+
+YO'NALISHLAR: mashinali o'rganish, kompyuter ko'rishi, til texnologiyalari (NLP), web-ilovalar, kiberxavfsizlik.
+
+LOYIHALAR: Neural Vision (AI asosidagi kompyuter ko'rish tizimi, 2026), Cyber Shield (xavfsizlik boshqaruv paneli, 2026), Quantum Web (kelajak web interfeysi, 2026), AI Genesis (aqlli tizimlar interfeysi, 2025), Digital Core (boshqaruv paneli va platforma, 2025), Zero Trust (xavfsizlik tizimi konsepsiyasi, 2025).
+
+TEXNOLOGIYALAR: HTML5, CSS3, JavaScript, React, Python, Node.js.
+
+TARIX: 2023 — birinchi g'oya; 2024 — dizayn va dasturlash bosqichi; 2025 — AI tizimga qo'shildi; 2026 — hozirgi faol rivojlanish bosqichi.
+
+STATISTIKA: 42+ loyiha, 18 texnologiya, 99.8% barqarorlik, 84.2K foydalanuvchi (37 davlatdan), loyihalarda 96.8% muvaffaqiyat ko'rsatkichi.
+
+YUTUQLAR: Innovatsiya mukofoti (2026), Eng yaxshi raqamli tajriba — Kelajak web mukofotlari (2026), Kreativ mukammallik mukofoti (2025).
+
+ALOQA: nexora@example.com
+
+Agar savol NEXORA haqida bo'lib, javobini yuqoridagi ma'lumotlardan topa olmasang, "Bu haqda aniq ma'lumotim yo'q, lekin nexora@example.com orqali to'g'ridan-to'g'ri so'rashingiz mumkin" deb ayt. Boshqa barcha (umumiy) savollarga esa o'z bilimlaring asosida erkin javob ber.`;
+
+            let suhbatTarixi = [];
+            let sorovYuborilyapti = false;
+
+            function panelniOch() {
+                aiPanel.classList.add("ochiq");
+                aiPanel.setAttribute("aria-hidden", "false");
+                aiTugma.classList.add("ochiq");
+                aiTugma.setAttribute("aria-expanded", "true");
+                setTimeout(() => aiInput.focus(), 200);
+            }
+
+            function panelniYop() {
+                aiPanel.classList.remove("ochiq");
+                aiPanel.setAttribute("aria-hidden", "true");
+                aiTugma.classList.remove("ochiq");
+                aiTugma.setAttribute("aria-expanded", "false");
+            }
+
+            aiTugma.addEventListener("click", () => {
+                aiPanel.classList.contains("ochiq") ? panelniYop() : panelniOch();
+            });
+
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape" && aiPanel.classList.contains("ochiq")) panelniYop();
+            });
+
+            function xabarQoshish(matn, tur) {
+                const div = document.createElement("div");
+                div.className = `ai-xabar ${tur}`;
+                div.textContent = matn;
+                aiXabarlar.appendChild(div);
+                aiXabarlar.scrollTop = aiXabarlar.scrollHeight;
+                return div;
+            }
+
+            function yozmoqdaKorsat() {
+                const div = document.createElement("div");
+                div.className = "ai-yozmoqda";
+                div.id = "aiYozmoqda";
+                div.innerHTML = "<span></span><span></span><span></span>";
+                aiXabarlar.appendChild(div);
+                aiXabarlar.scrollTop = aiXabarlar.scrollHeight;
+            }
+
+            function yozmoqdaOlibTashlash() {
+                const el = document.querySelector("#aiYozmoqda");
+                if (el) el.remove();
+            }
+
+            async function savolYubor(matn) {
+                const tozaMatn = matn.trim();
+                if (!tozaMatn || sorovYuborilyapti) return;
+
+                sorovYuborilyapti = true;
+                aiInput.value = "";
+                aiForma.querySelector("button").disabled = true;
+                if (aiTakliflar) aiTakliflar.style.display = "none";
+
+                xabarQoshish(tozaMatn, "foydalanuvchi");
+                suhbatTarixi.push({ role: "user", content: tozaMatn });
+                yozmoqdaKorsat();
+
+                try {
+                    const javob = await fetch("https://api.anthropic.com/v1/messages", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            model: "claude-sonnet-4-6",
+                            max_tokens: 1000,
+                            system: NEXORA_KONTEKST,
+                            messages: suhbatTarixi
+                        })
+                    });
+
+                    const malumot = await javob.json();
+                    yozmoqdaOlibTashlash();
+
+                    const matnBlok = (malumot.content || []).find((b) => b.type === "text");
+                    const javobMatni = matnBlok ? matnBlok.text : "Kechirasiz, javob topilmadi. Birozdan so'ng qayta urinib ko'ring.";
+
+                    xabarQoshish(javobMatni, "bot");
+                    suhbatTarixi.push({ role: "assistant", content: javobMatni });
+                } catch (xato) {
+                    yozmoqdaOlibTashlash();
+                    xabarQoshish("Uzr, javob olishda muammo yuz berdi. Internet aloqangizni tekshirib, qayta urinib ko'ring.", "xato");
+                } finally {
+                    sorovYuborilyapti = false;
+                    aiForma.querySelector("button").disabled = false;
+                }
+            }
+
+            aiForma.addEventListener("submit", (e) => {
+                e.preventDefault();
+                savolYubor(aiInput.value);
+            });
+
+            if (aiTakliflar) {
+                aiTakliflar.querySelectorAll(".ai-taklif").forEach((btn) => {
+                    btn.addEventListener("click", () => savolYubor(btn.textContent));
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>
